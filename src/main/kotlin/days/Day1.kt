@@ -24,14 +24,16 @@ class Day1 : Day(1, "Trebuchet?!") {
         return input.sumOf { line ->
             val first = line.findAnyOf(dictionary.map { it.key })?.let { elt ->
                 val indexOfFirstRealDigit = line.indexOfFirst { it.isDigit() }
-                if (indexOfFirstRealDigit != -1 && indexOfFirstRealDigit < elt.first) line.first { it.isDigit() }
-                else dictionary.entries.first { it.key == elt.second }.value
+
+                if (indexOfFirstRealDigit > elt.first) { dictionary.entries.first { it.key == elt.second }.value }
+                else null
             } ?: line.first { it.isDigit() }
 
             val last = line.findLastAnyOf(dictionary.map { it.key })?.let { elt ->
                 val indexOfLastRealDigit = line.indexOfLast { it.isDigit() }
-                if (indexOfLastRealDigit != -1 && indexOfLastRealDigit > elt.first) line.last { it.isDigit() }
-                else dictionary.entries.first { it.key == elt.second }.value
+
+                if (indexOfLastRealDigit < elt.first) { dictionary.entries.first { it.key == elt.second }.value }
+                else null
             } ?: line.last { it.isDigit() }
 
             "$first$last".toInt()
