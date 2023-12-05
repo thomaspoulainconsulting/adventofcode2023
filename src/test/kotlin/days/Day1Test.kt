@@ -25,6 +25,11 @@ class Day1Test : AdventOfCodeTest {
         7pqrstsixteen
         """.trimIndent().split('\n')
 
+    private val inputOverlaping =
+        """
+            6512krnnxdxzprbtlgcfoneeightwohfl
+        """.trimIndent().split('\n')
+
     @Test
     override fun solvePart1Test() {
         assertEquals("142", day.solvePart1(inputFirst))
@@ -33,5 +38,7 @@ class Day1Test : AdventOfCodeTest {
     @Test
     override fun solvePart2Test() {
         assertEquals("281", day.solvePart2(inputSecond))
+        assertEquals("62", day.solvePart2(inputOverlaping))
     }
+
 }

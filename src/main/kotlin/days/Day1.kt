@@ -3,15 +3,9 @@ package days
 class Day1 : Day(1, "Trebuchet?!") {
 
     override fun solvePart1(input: List<String>): String {
-        return input.mapNotNull { line ->
-            line.filter { it.isDigit() }
-                .takeIf { it.isNotEmpty() }
-                ?.let { digits ->
-                    "${digits.first()}${digits.last()}".toInt()
-                }
-        }
-        .sum()
-        .toString()
+        return input
+            .sumOf(::computeDigits)
+            .toString()
     }
 
     override fun solvePart2(input: List<String>): String {
@@ -26,8 +20,15 @@ class Day1 : Day(1, "Trebuchet?!") {
             "eight" to "8",
             "nine" to "9",
         )
+        val regex = Regex(dictionary.keys.joinToString("|") { it })
 
         return input.sumOf { line ->
+            val answer = regex
+                .replace(line) { match ->
+                    dictionary[match.value].orEmpty()
+                }
+                .let(::computeDigits)
+
             val first = line.findAnyOf(dictionary.map { it.key })?.let { elt ->
                 val indexOfFirstRealDigit = line.indexOfFirst { it.isDigit() }
                 if (indexOfFirstRealDigit != -1 && indexOfFirstRealDigit < elt.first) line.first { it.isDigit() }
@@ -43,5 +44,11 @@ class Day1 : Day(1, "Trebuchet?!") {
             "$first$last".toInt()
         }.toString()
     }
+
+    private fun computeDigits(line: String): Int =
+        line.filter { it.isDigit() }
+            .let { digits ->
+                "${digits.first()}${digits.last()}".toInt()
+            }
 
 }
