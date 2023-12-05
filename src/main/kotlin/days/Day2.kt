@@ -2,44 +2,43 @@ package days
 
 class Day2 : Day(2, "Cube Conundrum") {
 
-    private val redNumber = 12
-    private val greenNumber = 13
-    private val blueNumber = 14
+    private val colors = mapOf(
+        "red" to 12,
+        "green" to 13,
+        "blue" to 14,
+    )
 
     override fun solvePart1(input: List<String>): String {
         return input.sumOf { line ->
             val gameId = Regex("Game (\\d+)").find(line)?.groupValues?.last()?.toInt() ?: 0
             val games = line.replace(Regex("Game \\d+:"), "").split(";")
 
-            var isGamesImpossible = false
+            var isImpossible = false
 
-            games.forEach game@ { game ->
-                game.split(",").forEach { tirage ->
-                    Regex("(\\d+) (.+)").find(tirage)?.groupValues?.let {
-                        val occurence = it[1].toInt()
+            run games@{
+                games.map { game ->
+                    game.split(",")
+                        .forEach { draw ->
+                            Regex("(\\d+) (.+)").find(draw)?.groupValues?.let {
+                                val occurrence = it[1].toInt()
+                                val maxOccurence = colors[it.last()] ?: 0
 
-                        val isImpossible = when (it.last()) {
-                            "red" -> isGameImpossible(occurence, redNumber)
-                            "blue" -> isGameImpossible(occurence, blueNumber)
-                            "green" -> isGameImpossible(occurence, greenNumber)
-                            else -> false
+                                if (isGameImpossible(occurrence, maxOccurence)) {
+                                    isImpossible = true
+                                    return@games
+                                }
+                            }
                         }
-                        if (isImpossible) {
-                            isGamesImpossible = true
-                            return@game
-                        }
-                    }
                 }
             }
 
-            if (isGamesImpossible) 0
+            if (isImpossible) 0
             else gameId
         }.toString()
     }
 
-    private fun isGameImpossible(occurence: Int, maxOccurence: Int) : Boolean {
-        return occurence > maxOccurence
-    }
+    private fun isGameImpossible(occurence: Int, maxOccurrence: Int): Boolean =
+        occurence > maxOccurrence
 
     override fun solvePart2(input: List<String>): String {
         TODO("Not yet implemented")
