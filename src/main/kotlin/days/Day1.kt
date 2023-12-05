@@ -27,25 +27,21 @@ class Day1 : Day(1, "Trebuchet?!") {
             "nine" to "9",
         )
 
-        return input.map { line ->
+        return input.sumOf { line ->
             val first = line.findAnyOf(dictionary.map { it.key })?.let { elt ->
                 val indexOfFirstRealDigit = line.indexOfFirst { it.isDigit() }
-                if (indexOfFirstRealDigit != -1 && indexOfFirstRealDigit < elt.first) return@let line.first { it.isDigit() }
-
-                dictionary.entries.first { it.key == elt.second }.value
+                if (indexOfFirstRealDigit != -1 && indexOfFirstRealDigit < elt.first) line.first { it.isDigit() }
+                else dictionary.entries.first { it.key == elt.second }.value
             } ?: line.first { it.isDigit() }
 
             val last = line.findLastAnyOf(dictionary.map { it.key })?.let { elt ->
                 val indexOfLastRealDigit = line.indexOfLast { it.isDigit() }
-                if (indexOfLastRealDigit != -1 && indexOfLastRealDigit > elt.first) return@let line.last { it.isDigit() }
-
-                dictionary.entries.first { it.key == elt.second }.value
+                if (indexOfLastRealDigit != -1 && indexOfLastRealDigit > elt.first) line.last { it.isDigit() }
+                else dictionary.entries.first { it.key == elt.second }.value
             } ?: line.last { it.isDigit() }
 
             "$first$last".toInt()
-        }
-            .sum()
-            .toString()
+        }.toString()
     }
 
 }
