@@ -27,7 +27,7 @@ class Day1Test : AdventOfCodeTest {
 
     private val inputOverlaping =
         """
-            6512krnnxdxzprbtlgcfoneeightwohfl
+        6512krnnxdxzprbtlgcfoneeightwohfl
         """.trimIndent().split('\n')
 
     @Test

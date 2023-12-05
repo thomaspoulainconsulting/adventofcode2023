@@ -20,15 +20,8 @@ class Day1 : Day(1, "Trebuchet?!") {
             "eight" to "8",
             "nine" to "9",
         )
-        val regex = Regex(dictionary.keys.joinToString("|") { it })
 
         return input.sumOf { line ->
-            val answer = regex
-                .replace(line) { match ->
-                    dictionary[match.value].orEmpty()
-                }
-                .let(::computeDigits)
-
             val first = line.findAnyOf(dictionary.map { it.key })?.let { elt ->
                 val indexOfFirstRealDigit = line.indexOfFirst { it.isDigit() }
                 if (indexOfFirstRealDigit != -1 && indexOfFirstRealDigit < elt.first) line.first { it.isDigit() }
