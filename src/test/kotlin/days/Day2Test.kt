@@ -1,5 +1,6 @@
 package days
 
+import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class Day2Test: AdventOfCodeTest {
@@ -14,11 +15,13 @@ class Day2Test: AdventOfCodeTest {
         Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green
         """.trimIndent().split('\n')
 
+    @Test
     override fun solvePart1Test() {
         assertEquals("8", day.solvePart1(inputFirst))
     }
 
+    @Test
     override fun solvePart2Test() {
-        TODO("Not yet implemented")
+
     }
 }
