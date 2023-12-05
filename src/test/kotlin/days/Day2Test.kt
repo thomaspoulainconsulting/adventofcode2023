@@ -6,7 +6,7 @@ import kotlin.test.assertEquals
 class Day2Test: AdventOfCodeTest {
 
     private val day = Day2()
-    private val inputFirst =
+    private val input =
         """
         Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
         Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
@@ -17,11 +17,11 @@ class Day2Test: AdventOfCodeTest {
 
     @Test
     override fun solvePart1Test() {
-        assertEquals("8", day.solvePart1(inputFirst))
+        assertEquals("8", day.solvePart1(input))
     }
 
     @Test
     override fun solvePart2Test() {
-
+        assertEquals("2286", day.solvePart2(input))
     }
 }
