@@ -26,12 +26,10 @@ class Day3 : Day(3, "Gear Ratios") {
      */
     private fun isSymbolAroundNumber(index: Int, intRange: IntRange, input: List<String>): Boolean {
         val maxLength = input.first().length
-        var isSymbolAround = false
 
-
-        intRange.forEach { range ->
-            if (range == 0) return@forEach
-            if (range == maxLength - 1) return@forEach
+        intRange.forEach ranges@ { range ->
+            if (range == 0) return@ranges
+            if (range == maxLength - 1) return@ranges
 
             (-1..1).forEach abs@ { abs ->
                 if (index + abs < 0) return@abs
@@ -39,12 +37,12 @@ class Day3 : Day(3, "Gear Ratios") {
 
                 (-1..1).forEach { ord ->
                     if (isSymbol(input[index + abs][range + ord])) {
-                        isSymbolAround = true
+                        return true
                     }
                 }
             }
         }
-        return isSymbolAround
+        return false
     }
 
     private fun isSymbol(char: Char): Boolean {
@@ -52,6 +50,23 @@ class Day3 : Day(3, "Gear Ratios") {
     }
 
     override fun solvePart2(input: List<String>): String {
-        TODO("Not yet implemented")
+
+        // find all *
+        // check if there is numbers around
+        // if there is at least 2 numbers (on same line, above or below)
+        // retrieve those number thanks to there range
+        // multiple the found numbers
+        // addition all number
+
+
+
+
+
+        // find all numbers and all *
+        // find all *
+        // for each, find if there is numbers around it
+        // if so, find those number and multiply them
+        // add all numbers
+        return ""
     }
 }
