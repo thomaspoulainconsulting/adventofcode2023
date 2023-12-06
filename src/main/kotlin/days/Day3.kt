@@ -52,6 +52,14 @@ class Day3 : Day(3, "Gear Ratios") {
         return !char.isDigit() && char != '.'
     }
 
+    /**
+     * find all *
+     * check if there is numbers around
+     * if there is at least 2 numbers (on same line, above or below)
+     * retrieve those number thanks to there range
+     * multiply the found numbers
+     * addition them
+     */
     override fun solvePart2(input: List<String>): String {
         val regexStar = Regex("\\*")
         var total = 0
