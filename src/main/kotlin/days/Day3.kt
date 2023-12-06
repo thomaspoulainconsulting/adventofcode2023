@@ -21,17 +21,21 @@ class Day3 : Day(3, "Gear Ratios") {
         return total.toString()
     }
 
+    /**
+     * We check for symbols on above, current and below lines
+     */
     private fun isSymbolAroundNumber(index: Int, intRange: IntRange, input: List<String>): Boolean {
+        val maxLength = input.first().length
         var isSymbolAround = false
+
 
         intRange.forEach { range ->
             if (range == 0) return@forEach
-            if (range == input.first().length - 1) return@forEach
+            if (range == maxLength - 1) return@forEach
 
-            // line above, current, below line
             (-1..1).forEach abs@ { abs ->
                 if (index + abs < 0) return@abs
-                if (index + abs == input.first().length) return@abs
+                if (index + abs == maxLength) return@abs
 
                 (-1..1).forEach { ord ->
                     if (isSymbol(input[index + abs][range + ord])) {
@@ -46,7 +50,6 @@ class Day3 : Day(3, "Gear Ratios") {
     private fun isSymbol(char: Char): Boolean {
         return !char.isDigit() && char != '.'
     }
-
 
     override fun solvePart2(input: List<String>): String {
         TODO("Not yet implemented")
