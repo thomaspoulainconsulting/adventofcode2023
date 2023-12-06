@@ -10,15 +10,15 @@ class Day1 : Day(1, "Trebuchet?!") {
 
     override fun solvePart2(input: List<String>): String {
         val dictionary = mapOf(
-            "one" to "1",
-            "two" to "2",
-            "three" to "3",
-            "four" to "4",
-            "five" to "5",
-            "six" to "6",
-            "seven" to "7",
-            "eight" to "8",
-            "nine" to "9",
+            "one" to 1,
+            "two" to 2,
+            "three" to 3,
+            "four" to 4,
+            "five" to 5,
+            "six" to 6,
+            "seven" to 7,
+            "eight" to 8,
+            "nine" to 9,
         )
 
         return input.sumOf { line ->
