@@ -11,7 +11,7 @@ class Day3 : Day(3, "Gear Ratios") {
                 .takeIf { !it.none() }
                 ?.let { matches ->
                     matches.forEach {
-                        if (isSymbolAround(index, it.range, input, ::isSymbol)) {
+                        if (isSymbolAround(index, it.range, input)) {
                             total += it.value.toInt()
                         }
                     }
@@ -27,7 +27,6 @@ class Day3 : Day(3, "Gear Ratios") {
         index: Int,
         intRange: IntRange,
         input: List<String>,
-        predicate: (Char) -> Boolean
     ): Boolean {
         val maxLength = input.first().length
 
@@ -40,7 +39,7 @@ class Day3 : Day(3, "Gear Ratios") {
                 if (index + abs == maxLength) return@abs
 
                 (-1..1).forEach { ord ->
-                    if (predicate(input[index + abs][range + ord])) {
+                    if (isSymbol(input[index + abs][range + ord])) {
                         return true
                     }
                 }
@@ -55,70 +54,51 @@ class Day3 : Day(3, "Gear Ratios") {
 
     override fun solvePart2(input: List<String>): String {
         val regexStar = Regex("\\*")
-        val regexNumber = Regex("\\d+")
         var total = 0
-
-        // find all *
-        // check if there is numbers around
-        // if there is at least 2 numbers (on same line, above or below)
-        // retrieve those number thanks to there range
-        // multiple the found numbers
-        // addition all number
 
         input.forEachIndexed { index, line ->
             regexStar.findAll(line)
                 .takeIf { !it.none() }
                 ?.let { matches ->
                     matches.forEach {
-                        if (isSymbolAround(index, it.range, input, predicate = { it.isDigit() })) {
-                            val adjacentRange = IntRange(it.range.first -1, it.range.last +1)
-                            val numberFound = mutableListOf<Int>()
+                        if (isSymbolAround(index, it.range, input)) {
+                            val adjacentRange = IntRange(it.range.first - 1, it.range.last + 1)
+                            val numbers = mutableListOf<Int>()
 
                             // check number above
                             if (index > 0) {
-                                regexNumber.findAll(input[index - 1])
-                                    .takeIf { !it.none() }
-                                    ?.let { matchesNumber ->
-                                        matchesNumber.forEach { matchNumber ->
-                                            if (matchNumber.range.intersect(adjacentRange).isNotEmpty()) {
-                                                numberFound.add(matchNumber.value.toInt())
-                                            }
-                                        }
-                                    }
+                                isAdjacentNumber(input[index - 1], adjacentRange, numbers::add)
                             }
 
                             // current line
-                            regexNumber.findAll(input[index])
-                                .takeIf { !it.none() }
-                                ?.let { matchesNumber ->
-                                    matchesNumber.forEach { matchNumber ->
-                                        if (matchNumber.range.intersect(adjacentRange).isNotEmpty()) {
-                                            numberFound.add(matchNumber.value.toInt())
-                                        }
-                                    }
-                                }
+                            isAdjacentNumber(input[index], adjacentRange, numbers::add)
 
                             // below line
                             if (index < input.size - 1) {
-                                regexNumber.findAll(input[index + 1])
-                                    .takeIf { !it.none() }
-                                    ?.let { matchesNumber ->
-                                        matchesNumber.forEach { matchNumber ->
-                                            if (matchNumber.range.intersect(adjacentRange).isNotEmpty()) {
-                                                numberFound.add(matchNumber.value.toInt())
-                                            }
-                                        }
-                                    }
+                                isAdjacentNumber(input[index + 1], adjacentRange, numbers::add)
                             }
 
-
-                            if (numberFound.size == 2) {
-                                total += numberFound.first() * numberFound.last()
+                            if (numbers.size == 2) {
+                                total += numbers.first() * numbers.last()
                             }
                         }
                     }
                 }
         }
         return total.toString()
+    }
+
+    private fun isAdjacentNumber(line: String, adjacentRange: IntRange, onMatch: (Int) -> Unit) {
+        val regexNumber = Regex("\\d+")
+
+        regexNumber.findAll(line)
+            .takeIf { !it.none() }
+            ?.let { matchesNumber ->
+                matchesNumber.forEach { matchNumber ->
+                    if (matchNumber.range.intersect(adjacentRange).isNotEmpty()) {
+                        onMatch(matchNumber.value.toInt())
+                    }
+                }
+            }
     }
 }
