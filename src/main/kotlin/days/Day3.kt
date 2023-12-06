@@ -65,33 +65,31 @@ class Day3 : Day(3, "Gear Ratios") {
         var total = 0
 
         input.forEachIndexed { index, line ->
-            regexStar.findAll(line)
-                .takeIf { !it.none() }
-                ?.let { matches ->
-                    matches.forEach {
-                        if (isSymbolAround(index, it.range, input)) {
-                            val adjacentRange = IntRange(it.range.first - 1, it.range.last + 1)
-                            val numbers = mutableListOf<Int>()
+            regexStar.findAll(line).let { matches ->
+                matches.forEach {
+                    if (isSymbolAround(index, it.range, input)) {
+                        val adjacentRange = IntRange(it.range.first - 1, it.range.last + 1)
+                        val numbers = mutableListOf<Int>()
 
-                            // check number above
-                            if (index > 0) {
-                                isAdjacentNumber(input[index - 1], adjacentRange, numbers::add)
-                            }
+                        // check number above
+                        if (index > 0) {
+                            isAdjacentNumber(input[index - 1], adjacentRange, numbers::add)
+                        }
 
-                            // current line
-                            isAdjacentNumber(input[index], adjacentRange, numbers::add)
+                        // current line
+                        isAdjacentNumber(input[index], adjacentRange, numbers::add)
 
-                            // below line
-                            if (index < input.size - 1) {
-                                isAdjacentNumber(input[index + 1], adjacentRange, numbers::add)
-                            }
+                        // below line
+                        if (index < input.size - 1) {
+                            isAdjacentNumber(input[index + 1], adjacentRange, numbers::add)
+                        }
 
-                            if (numbers.size == 2) {
-                                total += numbers.first() * numbers.last()
-                            }
+                        if (numbers.size == 2) {
+                            total += numbers.first() * numbers.last()
                         }
                     }
                 }
+            }
         }
         return total.toString()
     }
@@ -99,14 +97,12 @@ class Day3 : Day(3, "Gear Ratios") {
     private fun isAdjacentNumber(line: String, adjacentRange: IntRange, onMatch: (Int) -> Unit) {
         val regexNumber = Regex("\\d+")
 
-        regexNumber.findAll(line)
-            .takeIf { !it.none() }
-            ?.let { matchesNumber ->
-                matchesNumber.forEach { matchNumber ->
-                    if (matchNumber.range.intersect(adjacentRange).isNotEmpty()) {
-                        onMatch(matchNumber.value.toInt())
-                    }
+        regexNumber.findAll(line).let { matches ->
+            matches.forEach { matchNumber ->
+                if (matchNumber.range.intersect(adjacentRange).isNotEmpty()) {
+                    onMatch(matchNumber.value.toInt())
                 }
             }
+        }
     }
 }
