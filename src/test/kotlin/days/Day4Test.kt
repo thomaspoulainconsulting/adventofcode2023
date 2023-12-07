@@ -3,7 +3,7 @@ package days
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class Day4Test: AdventOfCodeTest {
+class Day4Test : AdventOfCodeTest {
 
     private val day = Day4()
     private val input =
