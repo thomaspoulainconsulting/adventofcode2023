@@ -23,6 +23,6 @@ class Day4Test: AdventOfCodeTest {
 
     @Test
     override fun solvePart2Test() {
-        TODO("Not yet implemented")
+        assertEquals("30", day.solvePart2(input))
     }
 }
